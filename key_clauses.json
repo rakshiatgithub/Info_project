@@ -1,0 +1,7 @@
+{
+    "Termination Clause": ["terminate", "termination", "end of agreement", "cancel"],
+    "Payment Terms": ["payment", "invoice", "due date", "fees"],
+    "Liability Clause": ["liability", "indemnify", "compensation", "damages"],
+    "Confidentiality Clause": ["confidential", "non-disclosure", "proprietary information"],
+    "Jurisdiction Clause": ["jurisdiction", "governing law", "dispute resolution"]
+}
