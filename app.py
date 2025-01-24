@@ -16,10 +16,6 @@ checkpoint = "t5-small"  # Replace with a lightweight model checkpoint
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
 base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 
-# checkpoint = "LaMini-Flan-T5-248M"
-# tokenizer = T5Tokenizer.from_pretrained(checkpoint)
-# base_model = T5ForConditionalGeneration.from_pretrained(checkpoint, device_map='auto', torch_dtype=torch.float32)
-
 # Risk Detection Functionality
 risk_keywords = ["penalty", "breach", "compliance", "termination"]
 
@@ -51,8 +47,8 @@ def llm_pipeline(input_text):
         'summarization',
         model=base_model,
         tokenizer=tokenizer,
-        max_length=500,
-        min_length=50,
+        max_length=5000,
+        min_length=200,
     )
     try:
         result = pipe_sum(input_text, truncation=True)
@@ -60,12 +56,24 @@ def llm_pipeline(input_text):
     except Exception as e:
         return f"Error: Summarization failed. Details: {e}"
 
+# Clean Text for PDF generation (handling special characters)
+def clean_text(text):
+    # Replaces characters that may cause encoding issues
+    text = text.replace('\xa0', ' ')  # Non-breaking space replaced with a regular space
+    text = text.replace('\u201c', '"').replace('\u201d', '"')  # Replacing smart quotes
+    text = text.replace('\u2018', "'").replace('\u2019', "'")  # Replacing single quotes
+    return text
+
 # Generate PDF with summarized text
 def create_pdf(summary, file_path="summary.pdf"):
     pdf = FPDF()
     pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
     pdf.set_font("Arial", size=12)
+    
+    # Clean summary text to avoid encoding issues
+    summary = clean_text(summary)
+    
     pdf.multi_cell(0, 10, summary)
     pdf.output(file_path)
     return file_path
