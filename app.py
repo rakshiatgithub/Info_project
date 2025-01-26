@@ -1,5 +1,5 @@
 import streamlit as st
-import fitz  # PyMuPDF for PDF processing
+import fitz  
 import json
 import smtplib
 from email.mime.text import MIMEText
