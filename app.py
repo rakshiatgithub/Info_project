@@ -12,7 +12,7 @@ import tempfile
 from fpdf import FPDF
 
 # MODEL AND TOKENIZER
-checkpoint = "t5-small"  # Replace with a lightweight model checkpoint
+checkpoint = "t5-small" 
 tokenizer = T5Tokenizer.from_pretrained(checkpoint)
 base_model = T5ForConditionalGeneration.from_pretrained(checkpoint)
 
@@ -58,10 +58,9 @@ def llm_pipeline(input_text):
 
 # Clean Text for PDF generation (handling special characters)
 def clean_text(text):
-    # Replaces characters that may cause encoding issues
-    text = text.replace('\xa0', ' ')  # Non-breaking space replaced with a regular space
-    text = text.replace('\u201c', '"').replace('\u201d', '"')  # Replacing smart quotes
-    text = text.replace('\u2018', "'").replace('\u2019', "'")  # Replacing single quotes
+    text = text.replace('\xa0', ' ')  
+    text = text.replace('\u201c', '"').replace('\u201d', '"')  
+    text = text.replace('\u2018', "'").replace('\u2019', "'")  
     return text
 
 # Generate PDF with summarized text
@@ -80,8 +79,8 @@ def create_pdf(summary, file_path="summary.pdf"):
 
 # Send email with PDF attachment
 def send_email_with_pdf(recipient, summary):
-    sender_email = "rakshitha220055@gmail.com"  # Replace with your Gmail
-    sender_password = "gcmd fixi fghk agga"  # App Password
+    sender_email = "your_mail@gmail.com"  
+    sender_password = "your app password"  
 
     subject = "Document Summary (PDF)"
     body = "Hello,\n\nPlease find attached the PDF document containing the summary of your document.\n\nBest regards,\nSummarization App"
@@ -122,7 +121,7 @@ def main():
 
     uploaded_file = st.file_uploader("Upload your PDF File", type=['pdf'])
     recipient_email = st.text_input("Enter recipient email")
-    summary = ""  # Initialize summary with an empty string
+    summary = ""  
 
     if uploaded_file is not None:
         # Save uploaded file temporarily
@@ -135,7 +134,7 @@ def main():
         input_text = ""
         for page in doc:
             input_text += page.get_text()
-        clauses = input_text.split("\n") if input_text else []  # Split content into clauses by line
+        clauses = input_text.split("\n") if input_text else [] 
 
         col1, col2 = st.columns(2)
 
@@ -166,7 +165,7 @@ def main():
         # Regulatory Updates Check
         st.subheader("Regulatory Updates Check")
         try:
-            regulatory_updates = load_updates("regulatory_updates.json")  # Load updates from file
+            regulatory_updates = load_updates("regulatory_updates.json")  
             flagged_clauses = match_updates_with_clauses(regulatory_updates, clauses)
             if flagged_clauses:
                 for clause, law in flagged_clauses:
