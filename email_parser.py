@@ -4,8 +4,8 @@ from email.header import decode_header
 import os
 
 
-username = "rakshitha220055@gmail.com"
-password = "yfkd kjzi icch xdxz"
+username = "yourmail_id@gmail.com"
+password = "APP PASSWORD"
 
 
 mail = imaplib.IMAP4_SSL("imap.gmail.com")
